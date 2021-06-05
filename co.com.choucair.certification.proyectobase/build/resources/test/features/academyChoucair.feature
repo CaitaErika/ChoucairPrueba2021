@@ -5,5 +5,12 @@
     @scenario1
     Scenario: Search for automation course
       Given than santiago wants to learn automation at the academy choucair
-      When he search for the course Foundation Level on the choucair academy platform
-      Then he finds the course called resources Foundation Level
+      | strUser    | strPassword   |
+      | 1020750889 | Choucair2021* |
+      When he search for the course on the choucair academy platform
+      | strCourse         |
+      | Foundation Level  |
+      Then he finds the course called
+      | strCourse        |
+      | Foundation Level |
+

@@ -1,4 +1,6 @@
 package co.com.choucair.certification.proyectobase.stepdefinitions;
+import co.com.choucair.certification.proyectobase.model.AcademyChoucairData;
+import co.com.choucair.certification.proyectobase.questions.Answer;
 import co.com.choucair.certification.proyectobase.tasks.Login;
 import co.com.choucair.certification.proyectobase.tasks.OpenUp;
 import co.com.choucair.certification.proyectobase.tasks.Search;
@@ -9,6 +11,7 @@ import cucumber.api.java.en.When;
 import net.serenitybdd.screenplay.GivenWhenThen;
 import net.serenitybdd.screenplay.actors.OnStage;
 import net.serenitybdd.screenplay.actors.OnlineCast;
+import java.util.List;
 
 public class ChoucairAcademyStepDefinitions {
 
@@ -18,18 +21,19 @@ public class ChoucairAcademyStepDefinitions {
     }
 
     @Given("^than santiago wants to learn automation at the academy choucair$")
-    public void thanSantiagoWantsToLearnAutomationAtTheAcademyChoucair() {
-        OnStage.theActorCalled("santiago").wasAbleTo(OpenUp.thePage(), (Login.onThePage()));
+    public void thanSantiagoWantsToLearnAutomationAtTheAcademyChoucair(List<AcademyChoucairData> academyChoucairData) throws Exception {
+        OnStage.theActorCalled("santiago").wasAbleTo(OpenUp.thePage(), (Login.onThePage(academyChoucairData.get(0).getStrUser(),academyChoucairData.get(0).getStrPassword())));
     }
 
 
     @When("^he search for the course (.*) on the choucair academy platform$")
-    public void heSearchForTheCourseFoundationLevelOnTheChoucairAcademyPlatform(String course) {
-        OnStage.theActorInTheSpotlight().attemptsTo(Search.the(course));
+    public void heSearchForTheCourseFoundationLevelOnTheChoucairAcademyPlatform(List<AcademyChoucairData> academyChoucairData) throws Exception {
+        OnStage.theActorInTheSpotlight().attemptsTo(Search.the(academyChoucairData.get(0).getStrCourse()));
     }
 
-    @Then("^he finds the course called resources Foundation Level$")
-    public void heFindsTheCourseCalledResourcesFoundationLevel() {
+    @Then("^he finds the course called resources (.*)$")
+    public void heFindsTheCourseCalledResourcesFoundationLevel(List<AcademyChoucairData> academyChoucairData) throws Exception {
+        OnStage.theActorInTheSpotlight().should(GivenWhenThen.seeThat(Answer.toThe(academyChoucairData.get(0).getStrCourse())));
     }
 
 }
